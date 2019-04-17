@@ -40,6 +40,20 @@ $products = [
         'price' => '5400',
         'url' => 'img/lot-6.jpg'
     ]];
+
+/**
+ * Функция принимает целое число и
+ * возвращает отформатированную сумму со знаком рубля.
+ *
+ * @param int $price_value
+ * @return string
+ */
+function format_price(int $price_value): string{
+    $price_value = ceil($price_value);
+    $num = number_format ($price_value, 0, '', ' ');
+    $num .= " <b class=\"rub\">&#8381;</b>";
+    return $num;
+}
 ?>
 
 <!DOCTYPE html>
@@ -122,7 +136,7 @@ $products = [
                                 <div class="lot__state">
                                     <div class="lot__rate">
                                         <span class="lot__amount">Стартовая цена</span>
-                                        <span class="lot__cost"><?= $item['price']; ?><b class="rub">р</b></span>
+                                        <span class="lot__cost"><?= format_price((int)$item['price']); ?></span>
                                     </div>
                                     <div class="lot__timer timer">
                                         12:23
@@ -130,7 +144,6 @@ $products = [
                                 </div>
                             </div>
                         </li>
-
                     <?php };
                 };
             } ?>
