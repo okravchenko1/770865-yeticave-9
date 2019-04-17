@@ -1,8 +1,47 @@
 <?php
 $is_auth = rand(0, 1);
 
-$user_name = ''; // укажите здесь ваше имя
+$user_name = 'Оксана'; // укажите здесь ваше имя
+$categories = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
+$products = [
+    [
+        'name' => '2014 Rossignol District Snowboard',
+        'cat' => 'Доски и лыжи',
+        'price' => '10999',
+        'url' => 'img/lot-1.jpg'
+    ],
+    [
+        'name' => 'DC Ply Mens 2016/2017 Snowboard',
+        'cat' => 'Доски и лыжи',
+        'price' => '159999',
+        'url' => 'img/lot-2.jpg'
+    ],
+    [
+        'name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
+        'cat' => 'Крепления',
+        'price' => '8000',
+        'url' => 'img/lot-3.jpg'
+    ],
+    [
+        'name' => 'Ботинки для сноуборда DC Mutiny Charocal',
+        'cat' => 'Ботинки',
+        'price' => '10999',
+        'url' => 'img/lot-4.jpg'
+    ],
+    [
+        'name' => 'Куртка для сноуборда DC Mutiny Charocal',
+        'cat' => 'Одежда',
+        'price' => '7500',
+        'url' => 'img/lot-5.jpg'
+    ],
+    [
+        'name' => 'Маска Oakley Canopy',
+        'cat' => 'Разное',
+        'price' => '5400',
+        'url' => 'img/lot-6.jpg'
+    ]];
 ?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -13,7 +52,6 @@ $user_name = ''; // укажите здесь ваше имя
 </head>
 <body>
 <div class="page-wrapper">
-
 <header class="main-header">
     <div class="main-header__container container">
         <h1 class="visually-hidden">YetiCave</h1>
@@ -27,22 +65,42 @@ $user_name = ''; // укажите здесь ваше имя
         <a class="main-header__add-lot button" href="pages/add-lot.html">Добавить лот</a>
 
         <nav class="user-menu">
-
-        <!-- здесь должен быть PHP код для показа меню и данных пользователя -->
-
+        <?php if ($is_auth == 1): ?>
+          <div class="user-menu__logged">
+            <p><?= $user_name ?></p>
+            <a class="user-menu__bets" href="pages/my-bets.html">Мои ставки</a>
+            <a class="user-menu__logout" href="#">Выход</a>
+          </div>
+            <?php else: ?>
+              <ul class="user-menu__list">
+                <li class="user-menu__item">
+                  <a href="#">Регистрация</a>
+                </li>
+                <li class="user-menu__item">
+                  <a href="#">Вход</a>
+                </li>
+              </ul>
+            <?php endif; ?>
         </nav>
     </div>
 </header>
-
 <main class="container">
     <section class="promo">
         <h2 class="promo__title">Нужен стафф для катки?</h2>
         <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
         <ul class="promo__list">
             <!--заполните этот список из массива категорий-->
-            <li class="promo__item promo__item--boards">
+            <!--li class="promo__item promo__item--boards">
                 <a class="promo__link" href="pages/all-lots.html">Имя категории</a>
-            </li>
+            </li-->
+            <?php if (isset ($categories) && is_array($categories)) { ?>
+                <?php foreach ($categories as $val) {
+                    ?>
+                    <li class="promo__item promo__item--boards">
+                        <a class="promo__link" href="pages/all-lots.html"><?= $val; ?></a>
+                    </li>
+                <?php };
+            } ?>
         </ul>
     </section>
     <section class="lots">
@@ -50,25 +108,32 @@ $user_name = ''; // укажите здесь ваше имя
             <h2>Открытые лоты</h2>
         </div>
         <ul class="lots__list">
-            <!--заполните этот список из массива с товарами-->
-            <li class="lots__item lot">
-                <div class="lot__image">
-                    <img src="" width="350" height="260" alt="">
-                </div>
-                <div class="lot__info">
-                    <span class="lot__category">Название категории</span>
-                    <h3 class="lot__title"><a class="text-link" href="pages/lot.html">Название товара</a></h3>
-                    <div class="lot__state">
-                        <div class="lot__rate">
-                            <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost">цена<b class="rub">р</b></span>
-                        </div>
-                        <div class="lot__timer timer">
-                            12:23
-                        </div>
-                    </div>
-                </div>
-            </li>
+            <?php if (isset($products) && is_array($products)) { ?>
+                <?php foreach ($products as $key => $item) { ?>
+                    <?php if (isset($item['name'], $item['cat'], $item['price'], $item['url'])) { ?>
+                        <li class="lots__item lot">
+                            <div class="lot__image">
+                                <img src="<?= $item['url']; ?>" width="350" height="260" alt="<?= $item['name']; ?>">
+                            </div>
+                            <div class="lot__info">
+                                <span class="lot__category"><?= $item['cat']; ?></span>
+                                <h3 class="lot__title"><a class="text-link" href="lot.html"><?= $item['name']; ?></a>
+                                </h3>
+                                <div class="lot__state">
+                                    <div class="lot__rate">
+                                        <span class="lot__amount">Стартовая цена</span>
+                                        <span class="lot__cost"><?= $item['price']; ?><b class="rub">р</b></span>
+                                    </div>
+                                    <div class="lot__timer timer">
+                                        12:23
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                    <?php };
+                };
+            } ?>
         </ul>
     </section>
 </main>
@@ -77,10 +142,14 @@ $user_name = ''; // укажите здесь ваше имя
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <!--заполните этот список из массива категорий-->
-            <li class="nav__item">
-                <a href="pages/all-lots.html">Название категории</a>
-            </li>
+            <?php if (isset ($categories) && is_array($categories)) { ?>
+                <?php foreach ($categories as $val) {
+                    ?>
+                    <li class="nav__item">
+                        <a href="all-lots.html"><?= $val; ?></a>
+                    </li>
+                <?php };
+            } ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
