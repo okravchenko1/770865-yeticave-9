@@ -46,7 +46,6 @@ $layout_content = include_template('layout', [
    'categories' => $categories,
    'title' => 'YetiCave - Главная']);
 echo $layout_content;
-
 ?>
 
 
