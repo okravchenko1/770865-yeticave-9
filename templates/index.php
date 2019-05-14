@@ -38,7 +38,7 @@
                                         <span class="lot__cost"><?= format_price((int)$item['price']); ?></span>
                                     </div>
                                     <div class="lot__timer timer<?php if (lot_expire_alert('tomorrow')===true): ?> timer--finishing <?php endif; ?>">
-                                        <?= lot_expire(); ?>
+                                        <?= lot_expire('tomorrow'); ?>
                                     </div>
                                 </div>
                             </div>

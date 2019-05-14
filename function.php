@@ -5,7 +5,6 @@
  *
  * @param int $price_value
  * @return string
- *
  */
 function format_price(int $price_value): string
 {
@@ -14,6 +13,7 @@ function format_price(int $price_value): string
     $num .= " <b class=\"rub\">&#8381;</b>";
     return $num;
 }
+
 /**
  * Функция-шаблонизатор
  *
@@ -33,13 +33,14 @@ function include_template(string $filename, array $param = []): string
 }
 
 /**
- *  Функция для вывода оставшегося времени до окончания ставок на лот
+ * Функция для вывода оставшегося времени до окончания ставок на лот
  *
+ * @param $lot_exp
  * @return string
  */
-function lot_expire():string {
+function lot_expire($lot_exp):string {
     date_default_timezone_set('Europe/Moscow');
-    $ts_midnight = strtotime('tomorrow');
+    $ts_midnight = strtotime($lot_exp);
     $time_till_midnight = $ts_midnight - time();
     $hour = floor($time_till_midnight / 3600);
     $minute = floor(($time_till_midnight % 3600)/ 60);
